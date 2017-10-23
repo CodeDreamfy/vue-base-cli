@@ -1,14 +1,27 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '@/components/HelloWorld';
 
 Vue.use(Router);
 
 const routes = [
   {
-    path: '/',
-    name: 'Hello',
-    component: HelloWorld,
+    path: '/login',
+    name: 'login',
+    component: () => import('@/components/Login'),
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('@/components/layout'),
+    children: [
+      { path: '', name: 'a-index', component: () => import('@/pages/index') },
+      { path: 'index', name: 'a-index', component: () => import('@/pages/index') },
+    ],
+  },
+  {
+    path: '*',
+    name: '',
+    redirect: { name: 'login' },
   },
 ];
 
@@ -18,6 +31,7 @@ const routes = [
  */
 function configRouter() {
   const router = new Router({
+    mode: 'history',
     routes,
   });
 
